@@ -1,13 +1,16 @@
 
-INSERT INTO USER_ (identificacion, tipo_identificacion, password, rol)
-VALUES ('1101234567', 'CEDULA', 'admin123', 'SECRETARIA');
+INSERT INTO ROLE (ID, NAME) VALUES (1, 'SECRETARIA');
+INSERT INTO ROLE (ID, NAME) VALUES (2, 'DOCTOR');
+INSERT INTO ROLE (ID, NAME) VALUES (3, 'PACIENTE');
 
--- Insertar un Doctor de prueba
-INSERT INTO usuarios (identificacion, tipo_identificacion, password, rol)
-VALUES ('1107654321', 'CEDULA', 'doc123', 'DOCTOR');
+INSERT INTO USER_ (ID, NAME, PASSWORD) VALUES (1, 'secretaria', 'uVQoLxtZvlhBuamIlWRLGQ==');
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (1, 1);
 
--- Insertar un Paciente de prueba
-INSERT INTO usuarios (identificacion, tipo_identificacion, password, rol)
-VALUES ('1109998887', 'CEDULA', 'pac123', 'PACIENTE');
+INSERT INTO USER_ (ID, NAME, PASSWORD) VALUES (2, 'doctor', 'uVQoLxtZvlhBuamIlWRLGQ==');
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (2, 2);
+
+INSERT INTO USER_ (ID, NAME, PASSWORD) VALUES (3, 'paciente', 'uVQoLxtZvlhBuamIlWRLGQ==');
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (3, 3);
+
 
 COMMIT;

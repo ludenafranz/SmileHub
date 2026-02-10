@@ -25,8 +25,8 @@
         <jdbcDriver id="postgres-driver" libraryRef="jdbcLib"/>
         <properties.postgresql serverName="${db.server.name}"
                                portNumber="${db.port.number}"
-                               databaseName="smilehub_db"
-                               user="smileuser"
+                               databaseName="smilehub"
+                               user="smilehubUser"
                                password="smileUser2525"/>
     </dataSource>
 

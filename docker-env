@@ -4,14 +4,14 @@ DB_PGSQL_PORT_PUBLIC=5434
 LOCAL_DATA_DIR_BD=/home/franzludena/BaseDatos/smilehub
 
 ## VARIABLES DE ENTORNO COMUNES
-DB_NAME=smilehub_db
-DB_USER=smileuser
-DB_PASSWORD=smileUser2525
+DB_NAME=smilehub
+DB_USER=smilehubUser
+DB_PWD=smileUser2525
 
 ## VARIABLES DE ENTORNO PARA CONFIGURACIÓN DE ACCESO A BD
 ## DENTRO DEL CONTENEDOR DE LA APP
 DB_SERVER_NAME=smilehub-pg-db
 DB_PORT_NUMBER=5432
 
-## DRIVER JDBC (Si lo necesitas para tu app Java)
+#DRIVER_JDBC_DIR=target/lib/postgresql-42.7.3.jar
 DRIVER_JDBC_DIR=target/lib/*.jar

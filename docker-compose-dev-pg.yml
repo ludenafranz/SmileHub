@@ -1,64 +1,65 @@
 services:
-  # Base de datos PostgreSQL para Smile Hub
+  # Base de datos PostgreSQL
   smilehub-pg-db:
     image: postgres:${POSTGRES_VERSION}
     restart: unless-stopped
-    container_name: smilehub-pg-db-dev
+    container_name: smilehub-pg-db-container
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PWD}
     ports:
       - ${DB_PGSQL_PORT_PUBLIC}:5432
     volumes:
-      - smilehub-pg-data-dev:/var/lib/postgresql/data
+      - smilehub-pg-data:/var/lib/postgresql/data
+      #- ./init_db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      smilehub-network-dev:
-        ipv4_address: 171.21.0.251
+      smilehub-pg-network:
+        ipv4_address: 172.21.0.210
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
+      retries: 5 # Número de intentos antes de marcar como no saludable
+      start_period: 30s #Espera inicial antes de comenzar a comprobar(Dar tiempo a PostgreSQL inicie)
   smilehub-pg-adminer-bd:
     image: adminer
-    container_name: smilehub-adminer-container-2
+    container_name: smilehub-pg-adminer-bd-container
     restart: unless-stopped
+    #  restart: always
     ports:
       - 8081:8080
     depends_on:
       - smilehub-pg-db
     networks:
-      smilehub-network-dev:
-        ipv4_address: 171.21.0.253
+      smilehub-pg-network:
+        ipv4_address: 172.21.0.211
 
-  smilehub-pg-pgadminer-bd:
-    container_name: smilehub-pgadmin-container-2
+  smilehub-pg-pgadmin4-db:
+    container_name: smilehub-pg-pgadmin4-container
     image: dpage/pgadmin4
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@smilehub.org"
-      PGADMIN_DEFAULT_PASSWORD: "admin123"
+      PGADMIN_DEFAULT_EMAIL: "smilehub@postgres.org"
+      PGADMIN_DEFAULT_PASSWORD: "smilehub2026"
     ports:
       - 16543:80
     depends_on:
       - smilehub-pg-db
     networks:
-      smilehub-network-dev:
-        ipv4_address: 171.21.0.254
+      smilehub-pg-network:
+        ipv4_address: 172.21.0.212
 networks:
-  smilehub-network-dev:
+  smilehub-pg-network:
     driver: bridge
+    #driver_opts:
+    #    parent: eth0
     ipam:
       driver: default
       config:
-        - subnet: 171.21.0.0/24
-
+        - subnet: 172.21.0.0/24
 volumes:
-  smilehub-pg-data-dev:
-    name: smile-hub-data-local
+  smilehub-pg-data:
+    name: smilehub-pg-data-local
     driver: local
     driver_opts:
       type: none
