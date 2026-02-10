@@ -1,0 +1,77 @@
+<ui:composition template="/WEB-INF/template/base.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces">
+
+    <ui:define name="title-view">SmileHub - Ingreso</ui:define>
+
+    <ui:define name="content">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;display=swap');
+            body { background-color: #f4f7f6 !important; font-family: 'Inter', sans-serif !important; }
+            .main-container { display: flex; justify-content: center; align-items: center; min-height: 90vh; }
+            .login-card { display: flex; background: white; border-radius: 30px; overflow: hidden; width: 1000px; max-width: 95%; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+            .blue-frame { flex: 1; background-color: #2563eb; padding: 25px; display: flex; position: relative; }
+            .patient-image { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+            .floating-label { position: absolute; top: 50px; left: 50px; background: white; padding: 12px 20px; border-radius: 12px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+            .form-side { flex: 1.1; padding: 60px; }
+            .title { font-size: 2.2rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; line-height: 1.1; }
+            .subtitle { color: #64748b; font-size: 1.1rem; margin-bottom: 40px; }
+            .label-text { font-weight: 700; color: #1e293b; display: block; margin-bottom: 10px; }
+            .input-field { width: 100% !important; padding: 15px !important; border-radius: 12px !important; background: #f8fafc !important; border: 1px solid #e2e8f0 !important; margin-bottom: 25px !important; }
+            .btn-login { width: 100% !important; height: 55px !important; background: #2563eb !important; border-radius: 15px !important; font-weight: 800 !important; font-size: 1.1rem !important; border: none !important; }
+        </style>
+
+        <div class="main-container">
+            <div class="login-card">
+                <div class="blue-frame">
+                    <h:graphicImage value="/images/SmileHub_logo.png" styleClass="patient-image" />
+
+                    <div class="floating-label">
+                        <i class="pi pi-mobile" style="font-size: 1.5rem; color: #2563eb; margin-right: 12px;"></i>
+                        <div>
+                            <div style="font-weight: 800; font-size: 0.85rem; color: #1e293b;">SMILEHUB</div>
+                            <div style="font-size: 0.75rem; color: #64748b;">Gestión de Citas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-side">
+                    <h1 class="title">INICIA SESIÓN EN<br/>SMILEHUB</h1>
+                    <p class="subtitle">Accede a tu cuenta</p>
+
+                    <h:form id="loginForm">
+                        <!-- Mensajes de error y éxito desde la base de datos -->
+                        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" />
+
+                        <p:outputLabel for="user" value="Cédula o DNI *" styleClass="label-text" />
+                        <p:inputText id="user" value="#{authenticationController.username}"
+                                     required="true" styleClass="input-field"
+                                     placeholder="Ingrese su cédula o DNI"/>
+
+                        <p:outputLabel for="pass" value="Contraseña *" styleClass="label-text" />
+                        <p:password id="pass" value="#{authenticationController.password}"
+                                    required="true" styleClass="input-field"
+                                    toggleMask="true" redisplay="true"
+                                    placeholder="Contraseña"/>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px;">
+                            <h:panelGroup>
+                                <p:selectBooleanCheckbox id="rem" style="vertical-align: middle; margin-right: 8px;"/>
+                                <p:outputLabel for="rem" value="Recordarme" style="color: #64748b; font-size: 0.95rem;"/>
+                            </h:panelGroup>
+                            <!--<p:link value="¿Olvidaste tu contraseña?" href="#" style="color: #2563eb; font-weight: 700; font-size: 0.95rem; text-decoration: none;"/>-->
+                        </div>
+
+                        <p:commandButton value="INGRESAR"
+                                         action="#{authenticationController.login}"
+                                         update="loginForm:messages"
+                                         styleClass="btn-login" />
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

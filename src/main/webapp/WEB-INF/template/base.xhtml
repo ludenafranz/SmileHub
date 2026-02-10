@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8">
+    <h:head>
+        <title>
+            <ui:insert name="title-view">SmileHub 1.0</ui:insert>
+        </title>
+        <ui:insert name="head"/>
+        <style>
+            button.ui-button {
+                margin-right: .5rem;
+            }
+            .app-container {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                background-color: #f4f7f9;
+            }
+            .header-container {
+                background-color: #ffffff;
+                border-bottom: 2px solid #2196F3; /* Azul SmileHub */
+                padding: 0.5rem 1rem;
+            }
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .app-title {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+            .content-container {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 2rem;
+            }
+            .centered-card {
+                width: 95%;
+                max-width: 1200px;
+            }
+            .footer-container {
+                background-color: #ffffff;
+                border-top: 1px solid #dee2e6;
+                padding: 1rem;
+                text-align: center;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <div class="app-container">
+            <header id="header">
+                <div class="header-container">
+                    <div class="header-content">
+                        <div class="app-title">
+                            <div class="flex align-items-center gap-3">
+                                <i class="pi pi-shield" style="font-size: 1.5rem; color: #2196F3;"></i>
+                                <h:outputText value="SmileHub" style="color: #2196F3; font-weight: bold; font-size: 1.25rem"/>
+                            </div>
+                        </div>
+                    </div>
+                    <ui:insert name="menu">
+                        <ui:include src="/fragments/topbar.xhtml" />
+                    </ui:insert>
+                </div>
+            </header>
+
+            <main id="content">
+                <div class="content-container">
+                    <div class="centered-card">
+                        <ui:insert name="content">
+                            <ui:debug hotkey="d"/>
+                        </ui:insert>
+                    </div>
+                </div>
+            </main>
+
+            <footer id="footer" class="footer-container">
+                <ui:insert name="footer">
+                    <ui:include src="/fragments/footer.xhtml"/>
+                </ui:insert>
+            </footer>
+
+            <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+                <f:facet name="start">
+                    <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #2196F3;" aria-hidden="true"/>
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus>
+        </div>
+    </h:body>
+</f:view>
+</html>

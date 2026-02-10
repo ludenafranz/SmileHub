@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <style>
+            :root {
+                --bg-color: #e0f7f4;
+                --card-blue: #2c67ff;
+                --card-yellow: #f9b115;
+                --card-teal: #00a5a5;
+                --text-dark: #2c3e50;
+            }
+            body { background-color: var(--bg-color); font-family: 'Segoe UI', sans-serif; }
+
+            /* Tarjetas de Resumen */
+            .stat-card {
+                border-radius: 12px;
+                padding: 20px;
+                color: white;
+                position: relative;
+                min-height: 120px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .stat-number { font-size: 3rem; font-weight: bold; display: block; }
+            .stat-label { font-size: 1.1rem; font-weight: 500; }
+            .stat-icon { position: absolute; right: 20px; bottom: 20px; font-size: 3rem; opacity: 0.3; }
+
+            /* Agenda de Citas */
+            .agenda-container {
+                background: white;
+                border-radius: 15px;
+                margin-top: 25px;
+                overflow: hidden;
+            }
+            .agenda-header {
+                background: #00a5a5;
+                color: white;
+                padding: 15px 20px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+            }
+            .cita-item {
+                border-left: 5px solid #00a5a5;
+                margin: 15px;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 8px;
+            }
+            .badge-pendiente {
+                background: #fff3cd;
+                color: #856404;
+                padding: 4px 10px;
+                border-radius: 15px;
+                font-size: 0.8rem;
+                font-weight: bold;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <div class="ui-fluid p-4">
+
+            <p:panel header="Información Personal" toggleable="true" styleClass="mb-4">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4">
+                        <i class="pi pi-briefcase mr-2" style="color: #00a5a5"/>
+                        <strong>Especialidad:</strong> <h:outputText value="#{dashboardController.especialidad}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <i class="pi pi-phone mr-2" style="color: #2c67ff"/>
+                        <strong>Teléfono:</strong> <h:outputText value="0998877665"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <i class="pi pi-envelope mr-2" style="color: #a855f7"/>
+                        <strong>Correo:</strong> <h:outputText value="contacto@smilehub.ec"/>
+                    </div>
+                </div>
+            </p:panel>
+
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4">
+                    <div class="stat-card" style="background-color: var(--card-blue);">
+                        <span class="stat-label">Citas de Hoy</span>
+                        <span class="stat-number">#{dashboardController.citasHoy}</span>
+                        <i class="pi pi-calendar stat-icon"></i>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="stat-card" style="background-color: var(--card-yellow);">
+                        <span class="stat-label">Citas Pendientes</span>
+                        <span class="stat-number">#{dashboardController.pendientes}</span>
+                        <i class="pi pi-clock stat-icon"></i>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="stat-card" style="background-color: var(--card-teal);">
+                        <span class="stat-label">Citas para Mañana</span>
+                        <span class="stat-number">1</span>
+                        <i class="pi pi- stethoscope stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agenda-container">
+                <div class="agenda-header">
+                    <i class="pi pi-calendar-plus mr-2"></i> Mi Agenda de Citas
+                </div>
+
+                <div class="p-3">
+                    <p:staticMessage severity="info" summary="Martes, 10 de Febrero De 2026" detail="1 cita" style="width: 100%; margin-bottom: 10px"/>
+
+                    <div class="cita-item">
+                        <div class="ui-g">
+                            <div class="ui-g-2">
+                                <h:outputText value="11:00" style="font-size: 1.5rem; font-weight: bold; color: #00a5a5"/>
+                                <br/>
+                                <span class="badge-pendiente">PENDIENTE</span>
+                            </div>
+
+                            <div class="ui-g-10">
+                                <h:outputText value="Juan Carlos Martínez López" style="font-size: 1.2rem; font-weight: bold; color: var(--text-dark)"/>
+                                <div class="ui-g">
+                                    <div class="ui-g-6">
+                                        <small>Cédula: 1234567890</small><br/>
+                                        <small>juan.martinez@ejemplo.com</small>
+                                    </div>
+                                    <div class="ui-g-6 text-right">
+                                        <i class="pi pi-phone"/> <small>0987654321</small>
+                                    </div>
+                                </div>
+
+                                <p:divider align="left"><b>Servicios</b></p:divider>
+                                <div style="font-size: 0.9rem">
+                                    <div class="p-d-flex p-jc-between">
+                                        <span>Colocación de Brackets x1</span>
+                                        <span style="float: right">$500.00</span>
+                                    </div>
+                                    <div class="p-d-flex p-jc-between">
+                                        <span>Consulta Inicial x1</span>
+                                        <span style="float: right">$30.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 p-2" style="background: #fff3cd; border-radius: 5px;">
+                                    <small>📝 <b>Notas:</b> Inicio de tratamiento de ortodoncia. Duración estimada 18 meses.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </h:body>
+</ui:composition>

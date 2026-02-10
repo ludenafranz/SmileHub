@@ -1,0 +1,25 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:p="primefaces">
+
+    <div class="footer-container"
+         style="width: 100%; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
+
+        <div class="footer-content"
+             style="display: flex; gap: 10px; align-items: center;">
+
+            <p:graphicImage
+                    url="#{resource['images/jbrew_logo.png']}"
+                    alt="logo"
+                    height="25"/>
+
+            <span style="font-size: small; color: cadetblue;">
+                ©2026 Mi Empresa - Licenced by GPLV2
+            </span>
+        </div>
+    </div>
+
+</ui:composition>

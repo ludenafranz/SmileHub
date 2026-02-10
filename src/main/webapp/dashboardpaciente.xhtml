@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SMILEHUB - Portal del Paciente</title>
+        <style>
+            :root {
+                --sh-blue: #2c67ff;
+                --sh-green: #00c853;
+                --sh-yellow: #f9b115;
+                --sh-bg: #f8fafc;
+            }
+
+            body { background-color: var(--sh-bg); font-family: 'Inter', sans-serif; margin: 0; }
+
+            /* Banner Superior Azul (Igual a la foto) */
+            .header-banner {
+                background: var(--sh-blue);
+                border-radius: 12px;
+                padding: 25px;
+                color: white;
+                margin-bottom: 25px;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 10px 15px -3px rgba(44, 103, 255, 0.3);
+            }
+            .avatar-circle {
+                width: 60px; height: 60px; background: rgba(255,255,255,0.2);
+                border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                margin-right: 20px; font-size: 2rem;
+            }
+
+            /* Tarjetas de Resumen */
+            .summary-card {
+                border-radius: 12px; padding: 20px; color: white; margin-bottom: 20px;
+                position: relative; min-height: 100px;
+            }
+            .summary-card i { position: absolute; right: 15px; bottom: 15px; font-size: 2rem; opacity: 0.2; }
+            .summary-val { font-size: 2.2rem; font-weight: 800; display: block; }
+
+            /* LA CITA (Estructura de la foto) */
+            .appointment-item {
+                background: white; border-radius: 15px; margin-bottom: 20px;
+                display: flex; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+                overflow: hidden; border: 1px solid #edf2f7;
+            }
+
+            /* Bloque Azul Lateral de la Fecha */
+            .date-sidebar {
+                background: var(--sh-blue); color: white;
+                width: 100px; display: flex; flex-direction: column;
+                align-items: center; justify-content: center; padding: 15px;
+            }
+            .date-sidebar .day { font-size: 1.5rem; font-weight: bold; }
+            .date-sidebar .month { font-size: 0.9rem; text-transform: uppercase; opacity: 0.9; }
+            .time-pill {
+                background: rgba(255,255,255,0.2); padding: 4px 8px;
+                border-radius: 8px; font-size: 0.8rem; margin-top: 10px;
+            }
+
+            /* Cuerpo de la Cita */
+            .appointment-body { flex-grow: 1; padding: 20px; }
+            .status-label {
+                background: #fff3cd; color: #856404; padding: 3px 10px;
+                border-radius: 10px; font-size: 0.7rem; font-weight: bold;
+            }
+            .doctor-box {
+                background: #f1f5f9; border-radius: 10px; padding: 12px; margin: 15px 0;
+            }
+            .service-item {
+                display: flex; justify-content: space-between; padding: 6px 0;
+                border-bottom: 1px solid #f1f5f9; font-size: 0.9rem;
+            }
+            .total-box {
+                display: flex; justify-content: space-between; padding-top: 10px;
+                font-weight: bold; color: var(--sh-blue); font-size: 1.1rem;
+            }
+            .note-box {
+                background: #fffbeb; border: 1px solid #fef3c7;
+                padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.85rem;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <div style="max-width: 1000px; margin: 30px auto; padding: 0 20px;">
+
+            <div class="header-banner">
+                <div class="avatar-circle"><i class="pi pi-user"></i></div>
+                <div>
+                    <h2 style="margin: 0">Bienvenido/a, #{dashboardPacienteController.usuarioLogueado.nombre}</h2>
+                    <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 5px;">
+                        <i class="pi pi-id-card mr-1"/> #{dashboardPacienteController.usuarioLogueado.identificacion} |
+                        <i class="pi pi-envelope ml-2 mr-1"/> #{dashboardPacienteController.usuarioLogueado.correo}
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4">
+                    <div class="summary-card" style="background: var(--sh-yellow)">
+                        <span>Citas Pendientes</span>
+                        <span class="summary-val">2</span>
+                        <i class="pi pi-clock"></i>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="summary-card" style="background: var(--sh-green)">
+                        <span>Citas Completadas</span>
+                        <span class="summary-val">0</span>
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="summary-card" style="background: var(--sh-blue)">
+                        <span>Total de Citas</span>
+                        <span class="summary-val">2</span>
+                        <i class="pi pi-calendar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="color: #1e293b; margin: 30px 0 20px 0"><i class="pi pi-calendar-clock mr-2" style="color:var(--sh-blue)"/> Mis Citas Agendadas</h3>
+
+            <p:repeat value="#{dashboardPacienteController.misCitas}" var="cita">
+                <div class="appointment-item">
+                    <div class="date-sidebar">
+                        <i class="pi pi-calendar mb-1"></i>
+                        <span class="day">10</span>
+                        <span class="month">FEB</span>
+                        <div class="time-pill">
+                            <i class="pi pi-clock" style="font-size: 0.7rem"></i> 11:00
+                        </div>
+                    </div>
+
+                    <div class="appointment-body">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <span style="font-weight: bold; color: #475569;">Cita #APT004</span>
+                            <span class="status-label">PENDIENTE</span>
+                        </div>
+
+                        <div class="doctor-box">
+                            <div style="display: flex; align-items: center;">
+                                <i class="pi pi-user-md" style="font-size: 1.5rem; color: var(--sh-blue); margin-right: 12px;"></i>
+                                <div>
+                                    <div style="font-weight: bold; color: #1e293b;">Dr. Carlos Alberto Rodríguez Sánchez</div>
+                                    <div style="font-size: 0.75rem; color: #64748b;">Ortodoncia</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="service-item">
+                            <span>Colocación de Brackets</span>
+                            <span style="font-weight: 600;">$500.00 x 1</span>
+                        </div>
+                        <div class="service-item">
+                            <span>Consulta Inicial</span>
+                            <span style="font-weight: 600;">$30.00 x 1</span>
+                        </div>
+
+                        <div class="total-box">
+                            <span>Total Estimado:</span>
+                            <span>$530.00</span>
+                        </div>
+
+                        <div class="note-box">
+                            <strong>Notas:</strong> Inicio de tratamiento de ortodoncia. Duración estimada 18 meses.
+                        </div>
+                    </div>
+                </div>
+            </p:repeat>
+
+        </div>
+    </h:body>
+</ui:composition>

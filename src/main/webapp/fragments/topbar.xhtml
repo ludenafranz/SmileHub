@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:jsf="jakarta.faces"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="primefaces">
+
+<style>
+    .ui-stick{
+        top: 70px !important;
+    }
+
+    @media(max-width: 960px){
+        .ui-stick{
+            top: 110px !important;
+        }
+    }
+</style>
+
+<ui:composition>
+    <h:form>
+        <div id="panel-header" class="card">
+            <p:toolbar id="menu-tab">
+
+                <p:toolbarGroup align="left" rendered="#{!facesContext.externalContext.sessionMap.containsKey('user')}">
+                    <p:commandButton value="Inicio"
+                                     icon="pi pi-home" styleClass="mr-2"
+                                     action="/index.xhtml?faces-redirect=true"/>
+                    <i class="pi pi-bars px-2"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="left" rendered="#{facesContext.externalContext.sessionMap.containsKey('user')}">
+                    <p:commandButton value="Inicio" rendered="#{facesContext.externalContext.sessionMap.containsKey('user')}"
+                                     icon="pi pi-home" styleClass="mr-2"
+                                     action="/dashboard.xhtml?faces-redirect=true"/>
+                    <p:commandButton value="Admin usuarios" rendered="#{userSession.hasRole('ADMIN')}"
+                                     icon="pi pi-user" styleClass="mr-2"
+                                     action="/security/userList.xhtml?faces-redirect=true"/>
+                    <p:commandButton type="button" value="Open" icon="pi pi-folder-open" styleClass="ui-button-success" />
+                    <i class="pi pi-bars px-2"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Login"
+                                     rendered="#{!facesContext.externalContext.sessionMap.containsKey('user')}"
+                                     action="/login.xhtml?faces-redirect=true"/>
+                    <p:menuButton value="#{userSession.user.name}"
+                                  icon="pi pi-user" iconPos="right"
+                                  style="margin-rigth: 20px;"
+                                  rendered="#{facesContext.externalContext.sessionMap.containsKey('user')}">
+                        <p:menuitem value="Perfil" icon="pi  pi-save"/>
+                        <p:menuitem value="Logout" action="#{authenticationController.logout}"
+                                    ajax="false" icon="pi pi-times"/>
+                        <p:menuitem value="Inicio"
+                                    url="/dashboard.xhtml?faces-redirect=true" icon="pi pi-home"/>
+                    </p:menuButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:sticky target="menu-tab"/>
+        </div>
+    </h:form>
+</ui:composition>
+
+
+</html>
